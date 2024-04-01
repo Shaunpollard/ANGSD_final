@@ -1,0 +1,11 @@
+---
+title: "Finish Aligning and Generate Read Counts"
+author: "Shaun"
+date: "2024-03-24"
+output: html_document
+---
+
+```{bash}
+
+```
+

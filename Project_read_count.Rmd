@@ -1,0 +1,153 @@
+---
+title: 'Project: Read Count'
+author: "Shaun"
+date: "2024-03-31"
+output: 
+  html_document:
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+## TASK 1
+
+https://github.com/Shaunpollard/angsd_project.git
+
+## TASK 2
+
+I aligned all my reads in the last milestone and provided the my script there. The script will also be in my GitHub repository. 
+
+## TASK 3
+
+```{bash, eval = FALSE}
+(angsd) [shp4022@cayuga-login1 Alignment]$ nano fc.sh 
+
+!/bin/sh
+
+featureCounts -F GTF -g gene_id -t exon -T 32 -a ../genome/galGal6.ncbiRefSeq.gtf \
+   -o ../featureCount_results/featureCounts.txt -s 1 -p -B *_Aligned.sortedByCoord.out.bam
+```
+
+
+Here is my reasoning for using the following options in the `featureCounts` command:
+
+`-o`: This option specifies the output file path where `featureCounts` will save the output files.
+`-s`: This option allows `featureCounts` to perform strand-specific read counting. I used this option because my data is paired-ended. The value '1' specifies that the data is stranded.
+`-p`: This option informs `featureCounts` that my data is paired-end.
+`-B`: This option instructs `featureCounts` to count only read pairs that have both ends aligned.
+
+
+## TASK 4
+
+```{r}
+suppressMessages(library(ggplot2))
+suppressMessages(library(tidyverse))
+suppressMessages(library(dplyr))
+suppressMessages(library(plotly))
+suppressMessages(library(DESeq2))
+```
+
+
+```{r}
+# setwd("/Users/shaunp/Desktop/Weill_Cornell_Graduate/Grad_School/SPRING_2024/Analysis_Next-Gen_Sequencing_Data/Project")
+read_counts <- read.table(file = "featureCounts.txt.summary", 
+                          header = TRUE)
+```
+
+
+```{r}
+read_counts %>% 
+  head(5)
+```
+
+
+```{r}
+read_counts %>%
+  dplyr::slice(c(1, 9, 12, 14)) -> read_counts
+
+names(read_counts) %>%
+  stringr::str_remove("_Aligned.sortedByCoord.out.bam") -> names(read_counts)
+
+names(read_counts) %>%
+  stringr::str_extract("\\d$") %>%
+  #as.character() %>%
+  stringr::str_replace_na(replacement = "rep#") -> rep_number
+  #c("rep#") %>%
+  #.[1:10] %>%
+  #stringr::str_c("rep#")
+  #append(values = "rep#", before = "1") -> rep_number
+
+# names(read_counts) |>
+#   stringr::str_remove("_rep\\d") -> names(read_counts)
+  
+# read_counts %>%
+#   rbind(rep_number) -> read_counts
+
+read_counts %>%
+  dplyr::relocate(E8_retina_rep1, .before = E16_retina_rep1) %>%
+  dplyr::relocate(E8_retina_rep2, .after = E8_retina_rep1) %>%
+  dplyr::relocate(E18_retina_rep1, .before = E18_cornea_rep1) %>%
+  dplyr::relocate(E18_retina_rep2, .after = E18_retina_rep1) -> read_counts
+
+
+read_counts %>%
+  head(5)
+```
+
+
+```{r}
+read_counts_long <- pivot_longer(read_counts, cols = -Status, names_to = "Sample", values_to = "Count")
+
+read_counts_long |>
+  ggplot(aes(x = Sample, y = Count, fill = Status)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_log10() +
+  labs(
+    title = "Feature Counts for Embryo retina/cornea development", 
+    x = "Sample", 
+    y = "Count") +
+  coord_flip() -> plot
+  
+plot %>%
+  ggplotly()
+```
+
+## Quality Control
+
+```{r}
+#folder <- "Project" # download count table!
+## reading in featureCounts output
+fc_counts <- read.table("featureCounts.txt" , header = TRUE)
+str(fc_counts)
+# fc <- read.table(file = "featureCounts.txt", sep = "\t", header = TRUE)
+```
+
+
+```{r}
+names(fc_counts) %>%
+  stringr::str_remove("_Aligned.sortedByCoord.out.bam") -> names(fc_counts)
+```
+
+```{r}
+str(fc_counts)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

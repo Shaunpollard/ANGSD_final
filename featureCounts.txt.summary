@@ -1,0 +1,15 @@
+Status	E16_retina_rep1_Aligned.sortedByCoord.out.bam	E16_retina_rep2_Aligned.sortedByCoord.out.bam	E18_cornea_rep1_Aligned.sortedByCoord.out.bam	E18_cornea_rep2_Aligned.sortedByCoord.out.bam	E18_retina_rep1_Aligned.sortedByCoord.out.bam	E18_retina_rep2_Aligned.sortedByCoord.out.bam	E8_retina_rep1_Aligned.sortedByCoord.out.bam	E8_retina_rep2_Aligned.sortedByCoord.out.bam
+Assigned	2100515	2779902	1778159	3362356	2810890	4900100	5298687	3037150
+Unassigned_Unmapped	0	0	0	0	0	0	0	0
+Unassigned_Read_Type	0	0	0	0	0	0	0	0
+Unassigned_Singleton	0	0	0	0	0	0	0	0
+Unassigned_MappingQuality	0	0	0	0	0	0	0	0
+Unassigned_Chimera	0	0	0	0	0	0	0	0
+Unassigned_FragmentLength	0	0	0	0	0	0	0	0
+Unassigned_Duplicate	0	0	0	0	0	0	0	0
+Unassigned_MultiMapping	2695997	3611971	1747544	2931961	1745410	3204186	4330584	2607422
+Unassigned_Secondary	0	0	0	0	0	0	0	0
+Unassigned_NonSplit	0	0	0	0	0	0	0	0
+Unassigned_NoFeatures	64509398	82456314	44486635	73280025	59507644	97391340	128250571	76581039
+Unassigned_Overlapping_Length	0	0	0	0	0	0	0	0
+Unassigned_Ambiguity	12804	21781	37049	45341	20186	38518	36046	22241
